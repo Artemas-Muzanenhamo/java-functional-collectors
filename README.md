@@ -62,3 +62,39 @@ Integer totalAgeOfEveryone = createPeople()
         .map(Person::getAge)
         .reduce(0, Integer::sum);
 ``` 
+
+## Functional Programming
+
+Object-Oriented Programming: Polymorphism
+Functional Programming: Functional Composition + Lazy Evaluation
+- Lazy evaluation requires purity of functions(a function without side-effects).
+Pure function
+- Return the same result any number of times we call it with the same input(idempotency).
+- Pure functions do not have side effects.
+
+1. Pure functions do not change anything.
+2. Pure functions do not depend on anything that may change. 
+
+## Collectors
+
+* Get the list of names, in uppercase, of those who are older than 30
+
+```java
+        List<String> over30sNamesUpperCased = createPeople()
+                .stream()
+                .filter(person -> person.getAge() > 30)
+                .map(Person::getName)
+                .map(String::toUpperCase)
+                .collect(toList());
+//                .reduce(
+//                        new ArrayList<>(),
+//                        (names, name) -> {
+//                            names.add(name);
+//                            return names;
+//                        },
+//                        (names1, names2) -> {
+//                            names1.addAll(names2);
+//                            return names1;
+//                        }
+//                );
+``` 
