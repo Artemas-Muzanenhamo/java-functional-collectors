@@ -112,3 +112,20 @@ List<String> over30sNamesUpperCased = createPeople()
 - It is our responsibility to keep the functions pure otherwise we will not be able to
 achieve lazy-evaluation.
 - Collectors are a group of utility functions written to make our life solely easy.
+- The `.collect()` is a `reduce` operation.
+- `Collectors` is a utility class.
+
+### toMap()
+
+* Get names as key and age as value
+
+```java
+Map<String, Integer> expectedOutput = Map.of("Bob", 20, "Bill", 3, "Nancy", 22, "Sara", 20, "Paula", 32, "Jack", 72, "Jill", 11, "Paul", 32);
+
+Map<String, Integer> nameAndAge = createPeople().stream()
+        .collect(toMap(Person::getName, Person::getAge));
+
+assertThat(nameAndAge).
+        isNotEmpty()
+        .containsExactlyInAnyOrderEntriesOf(expectedOutput);
+```
