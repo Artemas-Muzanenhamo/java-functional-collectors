@@ -79,7 +79,7 @@ Pure function
 
 * Get the list of names, in uppercase, of those who are older than 30
 
-#### The wrong way: 
+#### The HARD way: 
 ```java
 List<String> over30sNamesUpperCased = createPeople()
         .stream()
@@ -99,7 +99,7 @@ List<String> over30sNamesUpperCased = createPeople()
         );
 ``` 
 
-#### The right way:
+#### The EASY way:
 ```java
 List<String> over30sNamesUpperCased = createPeople()
         .stream()
