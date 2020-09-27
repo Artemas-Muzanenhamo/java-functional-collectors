@@ -79,22 +79,36 @@ Pure function
 
 * Get the list of names, in uppercase, of those who are older than 30
 
+#### The wrong way: 
 ```java
-        List<String> over30sNamesUpperCased = createPeople()
-                .stream()
-                .filter(person -> person.getAge() > 30)
-                .map(Person::getName)
-                .map(String::toUpperCase)
-                .collect(toList());
-//                .reduce(
-//                        new ArrayList<>(),
-//                        (names, name) -> {
-//                            names.add(name);
-//                            return names;
-//                        },
-//                        (names1, names2) -> {
-//                            names1.addAll(names2);
-//                            return names1;
-//                        }
-//                );
+List<String> over30sNamesUpperCased = createPeople()
+        .stream()
+        .filter(person -> person.getAge() > 30)
+        .map(Person::getName)
+        .map(String::toUpperCase)
+        .reduce(
+                new ArrayList<>(),
+                (names, name) -> {
+                    names.add(name);
+                    return names;
+                },
+                (names1, names2) -> {
+                    names1.addAll(names2);
+                    return names1;
+                }
+        );
 ``` 
+
+#### The right way:
+```java
+List<String> over30sNamesUpperCased = createPeople()
+        .stream()
+        .filter(person -> person.getAge() > 30)
+        .map(Person::getName)
+        .map(String::toUpperCase)
+        .collect(toList());
+```
+
+- It is our responsibility to keep the functions pure otherwise we will not be able to
+achieve lazy-evaluation.
+- Collectors are a group of utility functions written to make our life solely easy.

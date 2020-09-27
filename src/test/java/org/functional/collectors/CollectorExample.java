@@ -33,17 +33,6 @@ public class CollectorExample {
                 .map(Person::getName)
                 .map(String::toUpperCase)
                 .collect(toList());
-//                .reduce(
-//                        new ArrayList<>(),
-//                        (names, name) -> {
-//                            names.add(name);
-//                            return names;
-//                        },
-//                        (names1, names2) -> {
-//                            names1.addAll(names2);
-//                            return names1;
-//                        }
-//                );
 
         assertThat(over30sNamesUpperCased)
                 .isNotEmpty()
