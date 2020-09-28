@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CollectorExample {
@@ -53,6 +52,40 @@ public class CollectorExample {
         assertThat(nameAndAge).
                 isNotEmpty()
                 .containsExactlyInAnyOrderEntriesOf(expectedOutput);
+    }
+
+    @Test
+    @DisplayName("Get people by age")
+    void getPeopleByAge() {
+        List<Person> expectedFalsePartition = List.of(
+                new Person("Sara", 20),
+                new Person("Bob", 20),
+                new Person("Bill", 3),
+                new Person("Jill", 11)
+        );
+
+        List<Person> expectedTruePartition = List.of(
+                new Person("Nancy", 22),
+                new Person("Paula", 32),
+                new Person("Paul", 32),
+                new Person("Jack", 72)
+        );
+
+        Map<Boolean, List<Person>> peopleByAge = createPeople().stream()
+                .collect(partitioningBy(person -> person.getAge() > 21));
+
+        // Creates a map of two partitions: TRUE and FALSE based our partition predicate `person.getAge() > 21`
+        // false=[Person{name='Sara', age=20}, Person{name='Bob', age=20}, Person{name='Bill', age=3}, Person{name='Jill', age=11}]
+        assertThat(peopleByAge)
+                .isNotEmpty()
+                .extractingByKey(false)
+                .isEqualTo(expectedFalsePartition);
+
+        // true=[Person{name='Nancy', age=22}, Person{name='Paula', age=32}, Person{name='Paul', age=32}, Person{name='Jack', age=72}]
+        assertThat(peopleByAge)
+                .isNotEmpty()
+                .extractingByKey(true)
+                .isEqualTo(expectedTruePartition);
     }
 }
 
