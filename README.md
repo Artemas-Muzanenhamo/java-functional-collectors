@@ -129,3 +129,46 @@ assertThat(nameAndAge).
         isNotEmpty()
         .containsExactlyInAnyOrderEntriesOf(expectedOutput);
 ```
+
+### partitioningBy()
+
+ Returns a Collector which partitions the input elements according to a Predicate, and organizes them into a Map<Boolean, List<T>>
+
+* Map people over the age of 21 by age
+
+```java
+List<Person> expectedFalsePartition = List.of(
+        new Person("Sara", 20),
+        new Person("Bob", 20),
+        new Person("Bill", 3),
+        new Person("Jill", 11)
+);
+
+List<Person> expectedTruePartition = List.of(
+        new Person("Nancy", 22),
+        new Person("Paula", 32),
+        new Person("Paul", 32),
+        new Person("Jack", 72)
+);
+
+Map<Boolean, List<Person>> peopleByAge = createPeople().stream()
+                .collect(partitioningBy(person -> person.getAge() > 21));
+
+        assertThat(peopleByAge)
+                .isNotEmpty()
+                .extractingByKey(false)
+                .isEqualTo(expectedFalsePartition);
+        
+        assertThat(peopleByAge)
+                .isNotEmpty()
+                .extractingByKey(true)
+                .isEqualTo(expectedTruePartition);
+```
+
+So there will be two partitions created by the `partitionBy()` operation: 
+
+`false=[Person{name='Sara', age=20}, Person{name='Bob', age=20}, Person{name='Bill', age=3}, Person{name='Jill', age=11}]`
+
+and
+
+`true=[Person{name='Nancy', age=22}, Person{name='Paula', age=32}, Person{name='Paul', age=32}, Person{name='Jack', age=72}]`

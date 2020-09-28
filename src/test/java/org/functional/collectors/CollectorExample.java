@@ -55,7 +55,7 @@ public class CollectorExample {
     }
 
     @Test
-    @DisplayName("Get people by age")
+    @DisplayName("Map people over the age of 21 by age")
     void getPeopleByAge() {
         List<Person> expectedFalsePartition = List.of(
                 new Person("Sara", 20),
@@ -75,6 +75,7 @@ public class CollectorExample {
                 .collect(partitioningBy(person -> person.getAge() > 21));
 
         // Creates a map of two partitions: TRUE and FALSE based our partition predicate `person.getAge() > 21`
+
         // false=[Person{name='Sara', age=20}, Person{name='Bob', age=20}, Person{name='Bill', age=3}, Person{name='Jill', age=11}]
         assertThat(peopleByAge)
                 .isNotEmpty()
