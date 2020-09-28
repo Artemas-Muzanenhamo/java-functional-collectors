@@ -88,6 +88,28 @@ public class CollectorExample {
                 .extractingByKey(true)
                 .isEqualTo(expectedTruePartition);
     }
+
+    @Test
+    @DisplayName("Group people by age")
+    void groupPeopleByAge() {
+        Map<Integer, List<Person>> expectedOutcome = Map.of(
+                20, List.of(new Person("Sara", 20), new Person("Bob", 20)),
+                22, List.of(new Person("Nancy", 22)),
+                32, List.of(new Person("Paula", 32), new Person("Paul", 32)),
+                3, List.of(new Person("Bill", 3)),
+                72, List.of(new Person("Jack", 72)),
+                11, List.of(new Person("Jill", 11))
+        );
+
+        Map<Integer, List<Person>> peopleGroupedByAge = createPeople().stream()
+                .collect(groupingBy(Person::getAge));
+
+        // 32=[Person{name='Paula', age=32}, Person{name='Paul', age=32}]
+        assertThat(peopleGroupedByAge)
+                .isNotEmpty()
+                .hasSize(6)
+                .isEqualTo(expectedOutcome);
+    }
 }
 
 // TODO: 39:53 - https://www.youtube.com/watch?v=pGroX3gmeP8

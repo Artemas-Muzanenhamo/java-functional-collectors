@@ -19,7 +19,9 @@ public static List<Person> createPeople() {
 }
 ```
 
-### filter
+The code above will be used as the default input for every example below :smirk:
+
+### filter()
 Allows us to pick some values and not pick
 other values within a stream pipeline.
 It takes a `Predicate` which returns a boolean 
@@ -34,7 +36,7 @@ List<Person> over30s = createPeople()
         .collect(toList());
 ```
 
-### map
+### map()
 This will transform your output in your stream pipeline to be whatever
 type you map your element to in the `.map()` operation.
 
@@ -47,7 +49,7 @@ List<String> namesOfOver30s = createPeople()
         .collect(toList());
 ```
 
-### reduce
+### reduce()
 Reduce take the collection and reduces it to a single value.
 Reduce converts a Stream to something more concrete.
 Java has reduce in two forms: 
@@ -172,3 +174,42 @@ So there will be two partitions created by the `partitionBy()` operation:
 and
 
 `true=[Person{name='Nancy', age=22}, Person{name='Paula', age=32}, Person{name='Paul', age=32}, Person{name='Jack', age=72}]`
+
+### groupingBy()
+
+Returns a Collector implementing a "group by" operation on input elements of the supplied type, 
+grouping elements according to a classification function, and returning the results in a  Map.
+
+* Group people by age
+
+```java
+Map<Integer, List<Person>> expectedOutcome = Map.of(
+        20, List.of(new Person("Sara", 20), new Person("Bob", 20)),
+        22, List.of(new Person("Nancy", 22)),
+        32, List.of(new Person("Paula", 32), new Person("Paul", 32)),
+        3, List.of(new Person("Bill", 3)),
+        72, List.of(new Person("Jack", 72)),
+        11, List.of(new Person("Jill", 11))
+);
+
+Map<Integer, List<Person>> peopleGroupedByAge = createPeople().stream()
+                .collect(groupingBy(Person::getAge));
+
+assertThat(peopleGroupedByAge)
+                .isNotEmpty()
+                .hasSize(6)
+                .isEqualTo(expectedOutcome);
+```
+
+The output when we perform the `groupingBy()` operation will produce: 
+
+```java
+{
+  32=[Person{name='Paula', age=32}, Person{name='Paul', age=32}],
+  3=[Person{name='Bill', age=3}],
+  20=[Person{name='Sara', age=20}, Person{name='Bob', age=20}],
+  22=[Person{name='Nancy', age=22}],
+  72=[Person{name='Jack', age=72}],
+  11=[Person{name='Jill', age=11}]
+}
+```
