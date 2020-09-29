@@ -1,5 +1,7 @@
 # Java Functional Collectors
 
+![Java CI with Gradle](https://github.com/Artemas-Muzanenhamo/java-functional-collectors/workflows/Java%20CI%20with%20Gradle/badge.svg?branch=develop)
+
 ## Common Operators
 
 Given some people:
