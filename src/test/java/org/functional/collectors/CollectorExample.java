@@ -104,7 +104,6 @@ public class CollectorExample {
         Map<Integer, List<Person>> peopleGroupedByAge = createPeople().stream()
                 .collect(groupingBy(Person::getAge));
 
-        // 32=[Person{name='Paula', age=32}, Person{name='Paul', age=32}]
         assertThat(peopleGroupedByAge)
                 .isNotEmpty()
                 .hasSize(6)
