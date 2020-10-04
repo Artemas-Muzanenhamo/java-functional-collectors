@@ -7,6 +7,7 @@
     * [filter()](#filter)
     * [map()](#map)
     * [reduce()](#reduce)
+* [Honouring Immutability](#honouring-immutability)
 * [Functional Programming](#functional-programming)
 * [Collectors](#collectors)
     * [toMap()](#tomap)
