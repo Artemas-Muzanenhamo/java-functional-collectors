@@ -80,6 +80,43 @@ Integer totalAgeOfEveryone = createPeople()
         .reduce(0, Integer::sum);
 ``` 
 
+## Honouring Immutability
+
+There may be some cases when you need to honour immutability. 
+
+* Get all people's ages
+
+```java
+List<Integer> listOfAges = createPeople().stream()
+        .map(Person::getAge)
+        .collect(toList());
+
+listOfAges.add(99); // valid as list returned is still mutable
+
+assertThat(listOfAges)
+        .isNotEmpty()
+        .contains(99);
+```
+
+In the code above, you can see that we are still able to mutate/change the list and add
+an age to the existing one. In some cases you might want to honour immutability when you
+have finished processing your collection in a stream pipeline. To do so, you can use the 
+`toUnmodifiableList()` collector operation to achieve this. That way, your list will not be
+modifiable after your terminal operation.
+
+```java
+// Honour Immutability
+List<Integer> unmodifiableListOfAllAges = createPeople().stream()
+        .map(Person::getAge)
+        .collect(toUnmodifiableList());
+
+assertThatThrownBy(() -> unmodifiableListOfAllAges.add(99))
+        .isExactlyInstanceOf(UnsupportedOperationException.class);
+```
+
+In fact, should one try to add or modify the `unModifiableList`, a `UnsupportedOperationException`
+will be thrown.
+
 ## Functional Programming
 
 Object-Oriented Programming: Polymorphism

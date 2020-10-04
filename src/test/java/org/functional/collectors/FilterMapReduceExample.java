@@ -6,7 +6,9 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toUnmodifiableList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class FilterMapReduceExample {
     public static List<Person> createPeople() {
@@ -78,5 +80,27 @@ class FilterMapReduceExample {
         assertThat(totalAgeOfEveryone)
                 .isNotZero()
                 .isEqualTo(212);
+    }
+    
+    @Test
+    @DisplayName("Get all people's ages")
+    void getAllAges() {
+        List<Integer> listOfAges = createPeople().stream()
+                .map(Person::getAge)
+                .collect(toList());
+        
+        listOfAges.add(99); // valid as list returned is still mutable
+
+        assertThat(listOfAges)
+                .isNotEmpty()
+                .contains(99);
+
+        // Honour Immutability
+        List<Integer> unmodifiableListOfAllAges = createPeople().stream()
+                .map(Person::getAge)
+                .collect(toUnmodifiableList());
+
+        assertThatThrownBy(() -> unmodifiableListOfAllAges.add(99))
+                .isExactlyInstanceOf(UnsupportedOperationException.class);
     }
 }
