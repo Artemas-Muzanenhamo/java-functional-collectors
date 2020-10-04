@@ -2,6 +2,18 @@
 
 ![Java CI with Gradle](https://github.com/Artemas-Muzanenhamo/java-functional-collectors/workflows/Java%20CI%20with%20Gradle/badge.svg?branch=develop)
 
+<!--ts-->
+* [Common Operators](#common-operators)
+    * [filter()](#filter)
+    * [map()](#map)
+    * [reduce()](#reduce)
+* [Functional Programming](#functional-programming)
+* [Collectors](#collectors)
+    * [toMap()](#tomap)
+    * [partitioningBy()](#partitioningby)
+    * [groupingBy()](#groupingby)
+<!--te-->
+
 ## Common Operators
 
 Given some people:
@@ -10,13 +22,14 @@ Given some people:
 public static List<Person> createPeople() {
     return List.of(
             new Person("Sara", 20),
-            new Person("Sara", 22),
+            new Person("Nancy", 22),
             new Person("Bob", 20),
             new Person("Paula", 32),
             new Person("Paul", 32),
-            new Person("Jack", 3),
+            new Person("Bill", 3),
             new Person("Jack", 72),
             new Person("Jill", 11)
+        );
     );
 }
 ```
